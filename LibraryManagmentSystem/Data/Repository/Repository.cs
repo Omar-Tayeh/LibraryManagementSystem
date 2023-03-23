@@ -1,4 +1,5 @@
 ﻿using LibraryManagmentSystem.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using static LibraryManagmentSystem.Data.Interfaces.IRepository;
 
 namespace LibraryManagmentSystem.Data.Repository
@@ -13,37 +14,40 @@ namespace LibraryManagmentSystem.Data.Repository
         protected void Save() => _context.SaveChanges();
         public int Count(Func<T, bool> predicate)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Where(predicate).Count();
         }
 
         public void Create(T entity)
         {
-            throw new NotImplementedException();
+            _context.Add(entity);
+            Save();
         }
 
         public void Delete(T entity)
         {
-            throw new NotImplementedException();
+            _context.Remove(entity);
+            Save();
         }
 
         public IEnumerable<T> Find(Func<T, bool> predicate)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Where(predicate);
         }
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Set<T>();
         }
 
         public T GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Find(id);
         }
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            _context.Entry(entity).State = EntityState.Modified;
+            Save();
         }
     }
 }
