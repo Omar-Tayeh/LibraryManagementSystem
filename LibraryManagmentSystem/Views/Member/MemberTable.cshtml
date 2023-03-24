@@ -1,0 +1,30 @@
+﻿@using LibraryManagmentSystem.ViewModel;
+@model IEnumerable<MemberViewModel>
+
+<a class="btn btn-success mt-5" style="margin: 10px" asp-controller="Member" asp-action="Create">Create new Member</a>
+
+<table class="table table-striped table-hover ">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Borrowed books count</th>
+            <th>Edit Member</th>
+            <th>Delete Member</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var MemberVM in Model)
+        {
+            <tr>
+                <td>@MemberVM.Member.MemberID</td>
+                <td>@MemberVM.Member.MemberName</td>
+                <td>@MemberVM.Member.Email</td>
+                <td>@MemberVM.BookCount</td>
+                <td><a class="btn btn-info" asp-area="" asp-controller="Member" asp-action="Update" asp-route-id="@MemberVM.Member.MemberID">Edit</a></td>
+                <td><a class="btn btn-danger" asp-area="" asp-controller="Member" asp-action="Delete" asp-route-id="@MemberVM.Member.MemberID">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

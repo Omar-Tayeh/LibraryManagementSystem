@@ -13,6 +13,8 @@ builder.Services.AddTransient<IBookRepository, BookRepository>();
 
 var app = builder.Build();
 
+SeedData.Seed(app);
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -33,3 +35,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+SeedData.Seed(app);

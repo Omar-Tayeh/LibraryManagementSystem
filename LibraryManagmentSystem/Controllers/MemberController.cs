@@ -15,7 +15,8 @@ namespace LibraryManagmentSystem.Controllers
             _memberRepository = memberRepository;
             _bookRepository = bookRepository;
         }
-        public IActionResult List()
+        [Route("Member")]
+        public IActionResult MemberTable()
         {
             var memberVM = new List<ViewModel.MemberViewModel>();
             var members = _memberRepository.GetAll();

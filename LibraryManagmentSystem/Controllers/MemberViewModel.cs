@@ -1,6 +1,6 @@
 ﻿namespace LibraryManagmentSystem.Controllers
 {
-    internal class CustomerViewModel
+    internal class MemberViewModel
     {
     }
 }
