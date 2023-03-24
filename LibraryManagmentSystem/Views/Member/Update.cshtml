@@ -1,0 +1,27 @@
+﻿@using LibraryManagmentSystem.Data.Model
+@model Member
+
+<div class="row orderForm">
+    <form asp-controller="Member" asp-action="Update" method="post" class="form-horizontal" role="form">
+        <h3 class="col-md-offset-2">Edit Member @Model.MemberName</h3>
+        @Html.HiddenFor(m => Model.MemberID)
+        <div class="form-group">
+            <label asp-for="MemberName" class="col-md-2 control-label"></label>
+            <div class="col-md-6">
+                <input asp-for="MemberName" class="form-control" />
+                <span asp-validation-for="MemberName" class="text-danger"></span>
+            </div>
+            <label asp-for="Email" class="col-md-2 control-label"></label>
+            <div class="col-md-6">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="btn-group col-md-offset-2 col-md-6">
+                <input class="btn btn-default" type="submit" value="Cancel" asp-controller="Member" asp-action="MemberTable" />
+                <input class="btn btn-success" type="submit" value="Update" />
+            </div>
+        </div>
+    </form>
+</div>
