@@ -31,7 +31,6 @@ namespace LibraryManagmentSystem.Controllers
             {
                 throw new ArgumentException();
             }
-            return View();
         }
         public IActionResult CheckBooks(IEnumerable<Book> books)
         {

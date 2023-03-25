@@ -5,6 +5,7 @@ namespace LibraryManagmentSystem.Data.Interfaces
 {
     public interface IBookRepository : IRepository<Book>
     {
+        IEnumerable<Book> FindAll(Func<Book, bool> predicate);
         IEnumerable<Book> FindWithBorrower(Func<Book, bool> predicate);
     }
 }
