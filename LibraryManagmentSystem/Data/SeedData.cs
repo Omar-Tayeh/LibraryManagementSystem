@@ -18,13 +18,13 @@ namespace LibraryManagmentSystem.Data
 
                 var mem3 = new Member { MemberName = "me m3", Email = "mem3@Livlib.com" };
 
-                var bok1 = new Book { Title = "bok1", Description = "desc1", Author = "mem1" };
+                var bok1 = new Book { Title = "bok1", Description = "desc1", Author = "mem1", Inventory= 3 };
 
                 var bok2 = new Book { Title = "bok2", Description = "desc2", Author = "mem2" };
 
                 var bok3 = new Book { Title = "bok3", Description = "desc3", Author = "mem3" };
 
-                context.Members.Add(mem1);
+                /*context.Members.Add(mem1);
                 context.Members.Add(mem2);
                 context.Members.Add(mem3);
 
@@ -32,7 +32,7 @@ namespace LibraryManagmentSystem.Data
                 context.Books.Add(bok2);
                 context.Books.Add(bok3);
 
-                context.SaveChanges();
+                context.SaveChanges();*/
             }
         }
     }

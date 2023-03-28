@@ -1,18 +1,24 @@
-﻿using LibraryManagmentSystem.Data.Interfaces;
+﻿using LibraryManagmentSystem.Data;
+using LibraryManagmentSystem.Data.Interfaces;
+using LibraryManagmentSystem.Data.Model;
 using LibraryManagmentSystem.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagmentSystem.Controllers
 {
     public class IssueBookController : Controller
+
     {
         private readonly IBookRepository _bookRepository;
         private readonly IMemberRepository _memberRepository;
+        protected readonly LibraryDbContext _context;
+        
 
-        public IssueBookController(IBookRepository bookRepository, IMemberRepository memberRepository)
+        public IssueBookController(IBookRepository bookRepository, IMemberRepository memberRepository, LibraryDbContext context)
         {
             _bookRepository = bookRepository;
             _memberRepository = memberRepository;
+            _context = context;
         }
 
         
@@ -41,7 +47,7 @@ namespace LibraryManagmentSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Issue(IssueBookViewModel issueBookViewModel)
+        public IActionResult Issue(IssueBookViewModel issueBookViewModel, IssueTransaction issueTransaction)
         {
             var book = _bookRepository.GetById(issueBookViewModel.Book.BookID);
 
@@ -50,6 +56,13 @@ namespace LibraryManagmentSystem.Controllers
             book.Borrower = member;
             book.Inventory = --book.Inventory;
 
+
+            issueTransaction.BookID = book.BookID;
+            issueTransaction.MemberID = member.MemberID;
+            issueTransaction.IssueDate = DateTime.Today;
+            issueTransaction.DueDate = DateTime.Today.AddDays(7);
+            _context.IssueTransactions.Add(issueTransaction);
+            
             _bookRepository.Update(book);
 
             return RedirectToAction("Index");
