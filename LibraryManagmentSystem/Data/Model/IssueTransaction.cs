@@ -12,6 +12,7 @@ namespace LibraryManagmentSystem.Data.Model
         public int BookID { get; set; }
         public DateTime IssueDate { get; set; }
         public DateTime DueDate { get; set; }
+        public bool Status { get; set; }
 
     }
 }

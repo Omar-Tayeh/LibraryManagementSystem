@@ -24,9 +24,10 @@ namespace LibraryManagmentSystem.Controllers
         
         public IActionResult Index()
         {
-            var BooksInStock = _bookRepository.FindAll(s => s.Inventory > 0);
+            //var BooksInStock = _bookRepository.FindAll(s => s.Inventory > 0);
+            var BooksInStock = _context.Books.Where(s => s.Inventory > 0);
 
-            if(BooksInStock.Count() == 0)
+            if (BooksInStock.Count() == 0)
             {
                 return View("Empty");
             }
@@ -53,14 +54,15 @@ namespace LibraryManagmentSystem.Controllers
 
             var member = _memberRepository.GetById(issueBookViewModel.Book.BorrowerID);
 
-            book.Borrower = member;
+            //book.Borrower = member;
             book.Inventory = --book.Inventory;
 
 
             issueTransaction.BookID = book.BookID;
             issueTransaction.MemberID = member.MemberID;
-            issueTransaction.IssueDate = DateTime.Today;
-            issueTransaction.DueDate = DateTime.Today.AddDays(7);
+            issueTransaction.IssueDate = DateTime.Today.Date;
+            issueTransaction.DueDate = DateTime.Today.Date.AddDays(7);
+            issueTransaction.Status = false;
             _context.IssueTransactions.Add(issueTransaction);
             
             _bookRepository.Update(book);

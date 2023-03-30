@@ -12,10 +12,6 @@ namespace LibraryManagmentSystem.Data.Repository
             _context = context;
         }
         protected void Save() => _context.SaveChanges();
-        public int Count(Func<T, bool> predicate)
-        {
-            return _context.Set<T>().Where(predicate).Count();
-        }
 
         public void Create(T entity)
         {
@@ -27,11 +23,6 @@ namespace LibraryManagmentSystem.Data.Repository
         {
             _context.Remove(entity);
             Save();
-        }
-
-        public IEnumerable<T> Find(Func<T, bool> predicate)
-        {
-            return _context.Set<T>().Where(predicate);
         }
 
         public IEnumerable<T> GetAll()

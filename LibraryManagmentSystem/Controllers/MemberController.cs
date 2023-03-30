@@ -1,4 +1,5 @@
-﻿using LibraryManagmentSystem.Data.Interfaces;
+﻿using LibraryManagmentSystem.Data;
+using LibraryManagmentSystem.Data.Interfaces;
 using LibraryManagmentSystem.Data.Model;
 using LibraryManagmentSystem.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -8,14 +9,16 @@ namespace LibraryManagmentSystem.Controllers
     public class MemberController : Controller
       
     {
-        private readonly IMemberRepository _memberRepository;
         private readonly IBookRepository _bookRepository;
-        public MemberController(IMemberRepository memberRepository,
-            IBookRepository bookRepository)
+        private readonly IMemberRepository _memberRepository;
+        protected readonly LibraryDbContext _context;
+        public MemberController(IBookRepository bookRepository, IMemberRepository memberRepository, LibraryDbContext context)
         {
-            _memberRepository = memberRepository;
             _bookRepository = bookRepository;
+            _memberRepository = memberRepository;
+            _context = context;
         }
+
         [Route("Member")]
         public IActionResult MemberTable()
         {
@@ -32,7 +35,7 @@ namespace LibraryManagmentSystem.Controllers
                 memberVM.Add(new ViewModel.MemberViewModel
                 {
                     Member = member,
-                    BookCount = _bookRepository.Count(x => x.BorrowerID == member.MemberID)
+                    BookCount = _context.IssueTransactions.Count(m => m.MemberID == member.MemberID && m.Status == false)
                 });
             
             }
