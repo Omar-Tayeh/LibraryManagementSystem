@@ -9,16 +9,18 @@ namespace LibraryManagmentSystem.Controllers
     public class MemberController : Controller
       
     {
+        private readonly IBookRepository _bookRepository;
         private readonly IMemberRepository _memberRepository;
         protected readonly LibraryDbContext _context;
-        public MemberController(IMemberRepository memberRepository, LibraryDbContext context)
+        public MemberController(IBookRepository bookRepository, IMemberRepository memberRepository, LibraryDbContext context)
         {
+            _bookRepository = bookRepository;
             _memberRepository = memberRepository;
             _context = context;
         }
 
         [Route("Member")]
-        public IActionResult Index()
+        public IActionResult MemberTable()
         {
             var memberVM = new List<ViewModel.MemberViewModel>();
             var members = _memberRepository.GetAll();
@@ -46,7 +48,7 @@ namespace LibraryManagmentSystem.Controllers
             var member = _memberRepository.GetById(id);
 
             _memberRepository.Delete(member);
-            return RedirectToAction("Index");
+            return RedirectToAction("MemberTable");
         }
 
         public IActionResult Create()
@@ -58,7 +60,7 @@ namespace LibraryManagmentSystem.Controllers
         public IActionResult Create(Member member)
         {
             _memberRepository.Create(member);
-            return RedirectToAction("Index");
+            return RedirectToAction("MemberTable");
         }
 
         public IActionResult Update(int id)
@@ -71,7 +73,7 @@ namespace LibraryManagmentSystem.Controllers
         public IActionResult Update(Member member)
         {
             _memberRepository.Update(member);
-            return RedirectToAction("Index");
+            return RedirectToAction("MemberTable");
         }
     }
 }

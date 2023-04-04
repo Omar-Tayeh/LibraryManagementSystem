@@ -15,7 +15,7 @@ namespace LibraryManagmentSystem.Controllers
         }
 
         [Route("Book")]
-        public IActionResult Index(int? borrowerID)
+        public IActionResult BookTable(int? borrowerID)
         {
             if(borrowerID == null)
             {
@@ -49,7 +49,7 @@ namespace LibraryManagmentSystem.Controllers
             var book = _bookRepository.GetById(id);
 
             _bookRepository.Delete(book);
-            return RedirectToAction("Index");
+            return RedirectToAction("BookTable");
         }
 
         public IActionResult Create()
@@ -61,7 +61,7 @@ namespace LibraryManagmentSystem.Controllers
         public IActionResult Create(Book book)
         {
             _bookRepository.Create(book);
-            return RedirectToAction("Index");
+            return RedirectToAction("BookTable");
         }
 
         public IActionResult Update(int id)
@@ -74,7 +74,7 @@ namespace LibraryManagmentSystem.Controllers
         public IActionResult Update(Book book)
         {
             _bookRepository.Update(book);
-            return RedirectToAction("Index");
+            return RedirectToAction("BookTable");
         }
     }
 }

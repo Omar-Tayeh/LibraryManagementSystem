@@ -16,14 +16,10 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="col-md-6">
-                <input asp-for="FullAddress" class="form-control" />
-                <span asp-validation-for="FullAddress" class="text-danger"></span>
-            </div>
         </div>
         <div class="form-group">
             <div class="btn-group col-md-offset-2 col-md-6">
-                <input class="btn btn-default" type="submit" value="Cancel" asp-controller="Member" asp-action="Index" />
+                <input class="btn btn-default" type="submit" value="Cancel" asp-controller="Member" asp-action="MemberTable" />
                 <input class="btn btn-success" type="submit" value="Update" />
             </div>
         </div>
