@@ -58,24 +58,24 @@ namespace LibraryManagmentSystem.Migrations
 
             modelBuilder.Entity("LibraryManagmentSystem.Data.Model.Member", b =>
                 {
-                    b.Property<int>("MemberID")
+                    b.Property<int>("memberID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MemberID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("memberID"));
 
                     b.Property<int?>("BookID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MemberName")
+                    b.Property<string>("memberName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MemberID");
+                    b.HasKey("memberID");
 
                     b.HasIndex("BookID");
 

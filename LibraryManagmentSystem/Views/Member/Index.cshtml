@@ -9,6 +9,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Full Address</th>
             <th>Borrowed books count</th>
             <th>Edit Member</th>
             <th>Delete Member</th>
@@ -21,6 +22,7 @@
                 <td>@MemberVM.Member.MemberID</td>
                 <td>@MemberVM.Member.MemberName</td>
                 <td>@MemberVM.Member.Email</td>
+                <td>@MemberVM.Member.FullAddress</td>
                 <td>@MemberVM.BookCount</td>
                 <td><a class="btn btn-info" asp-area="" asp-controller="Member" asp-action="Update" asp-route-id="@MemberVM.Member.MemberID">Edit</a></td>
                 <td><a class="btn btn-danger" asp-area="" asp-controller="Member" asp-action="Delete" asp-route-id="@MemberVM.Member.MemberID">Delete</a></td>

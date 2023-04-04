@@ -1,5 +1,4 @@
 ﻿using LibraryManagmentSystem.Data;
-using LibraryManagmentSystem.Data.Interfaces;
 using LibraryManagmentSystem.Data.Model;
 using LibraryManagmentSystem.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +8,10 @@ namespace LibraryManagmentSystem.Controllers
     public class IssueBookController : Controller
 
     {
-        private readonly IBookRepository _bookRepository;
-        private readonly IMemberRepository _memberRepository;
         protected readonly LibraryDbContext _context;
         
-
-        public IssueBookController(IBookRepository bookRepository, IMemberRepository memberRepository, LibraryDbContext context)
+        public IssueBookController(LibraryDbContext context)
         {
-            _bookRepository = bookRepository;
-            _memberRepository = memberRepository;
             _context = context;
         }
 
@@ -41,8 +35,8 @@ namespace LibraryManagmentSystem.Controllers
         {
             var issueBookVM = new IssueBookViewModel()
             {
-                Book = _bookRepository.GetById(bookid),
-                Members = _memberRepository.GetAll()
+                Book = _context.Books.Find(bookid),
+                Members = _context.Members.ToList(),
             };
             return View(issueBookVM);
         }
@@ -50,13 +44,12 @@ namespace LibraryManagmentSystem.Controllers
         [HttpPost]
         public IActionResult Issue(IssueBookViewModel issueBookViewModel, IssueTransaction issueTransaction)
         {
-            var book = _bookRepository.GetById(issueBookViewModel.Book.BookID);
+            var book = _context.Books.Find(issueBookViewModel.Book.BookID);
 
-            var member = _memberRepository.GetById(issueBookViewModel.Book.BorrowerID);
+            var member = _context.Members.Find(issueBookViewModel.Book.BorrowerID);
 
             //book.Borrower = member;
             book.Inventory = --book.Inventory;
-
 
             issueTransaction.BookID = book.BookID;
             issueTransaction.MemberID = member.MemberID;
@@ -64,8 +57,7 @@ namespace LibraryManagmentSystem.Controllers
             issueTransaction.DueDate = DateTime.Today.Date.AddDays(7);
             issueTransaction.Status = false;
             _context.IssueTransactions.Add(issueTransaction);
-            
-            _bookRepository.Update(book);
+            _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
