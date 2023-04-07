@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace LibraryManagmentSystem.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class ConfirmEmailChangeModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;

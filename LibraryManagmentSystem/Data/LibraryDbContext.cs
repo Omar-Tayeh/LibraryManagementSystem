@@ -1,11 +1,13 @@
 ﻿using LibraryManagmentSystem.Controllers;
 using LibraryManagmentSystem.Data.Model;
 using LibraryManagmentSystem.ViewModel;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagmentSystem.Data
 {
-    public class LibraryDbContext : DbContext
+    public class LibraryDbContext : IdentityDbContext
     {
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options)
         {

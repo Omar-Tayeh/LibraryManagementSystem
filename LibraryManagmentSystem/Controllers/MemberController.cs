@@ -9,46 +9,67 @@ namespace LibraryManagmentSystem.Controllers
     public class MemberController : Controller
       
     {
-        private readonly IBookRepository _bookRepository;
-        private readonly IMemberRepository _memberRepository;
         protected readonly LibraryDbContext _context;
-        public MemberController(IBookRepository bookRepository, IMemberRepository memberRepository, LibraryDbContext context)
+        public MemberController(LibraryDbContext context)
         {
-            _bookRepository = bookRepository;
-            _memberRepository = memberRepository;
             _context = context;
         }
 
         [Route("Member")]
-        public IActionResult MemberTable()
+        public IActionResult Index(string search)
         {
-            var memberVM = new List<ViewModel.MemberViewModel>();
-            var members = _memberRepository.GetAll();
-
-            if (members.Count() == 0) 
+            if (string.IsNullOrEmpty(search))
             {
-                return View("Empty");
-            }
+                var memberVM = new List<ViewModel.MemberViewModel>();
+                var members = _context.Members.ToList();
 
-            foreach ( var member in members) 
-            {
-                memberVM.Add(new ViewModel.MemberViewModel
+                if (members.Count() == 0)
                 {
-                    Member = member,
-                    BookCount = _context.IssueTransactions.Count(m => m.MemberID == member.MemberID && m.Status == false)
-                });
-            
-            }
+                    return View("Empty");
+                }
 
-            return View(memberVM);
+                foreach (var member in members)
+                {
+                    memberVM.Add(new ViewModel.MemberViewModel
+                    {
+                        Member = member,
+                        BookCount = _context.IssueTransactions.Count(m => m.MemberID == member.MemberID && m.Status == false)
+                    });
+
+                }
+
+                return View(memberVM);
+            }
+            else
+            {
+                var memberVM = new List<ViewModel.MemberViewModel>();
+                var members = _context.Members.Where(m => m.MemberName.Contains(search)).ToList();
+
+                if (members.Count() == 0 )
+                {
+                    return View("Empty");
+                }
+
+                foreach (var member in members)
+                {
+                    memberVM.Add(new ViewModel.MemberViewModel
+                    {
+                        Member = member,
+                        BookCount = _context.IssueTransactions.Count(m => m.MemberID == member.MemberID && m.Status == false)
+                    });
+
+                }
+
+                return View(memberVM);
+            }
         }
 
         public IActionResult Delete(int id)
         {
-            var member = _memberRepository.GetById(id);
-
-            _memberRepository.Delete(member);
-            return RedirectToAction("MemberTable");
+            var member = _context.Members.Where( m => m.MemberID == id).First();
+            _context.Members.Remove(member);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Create()
@@ -59,21 +80,23 @@ namespace LibraryManagmentSystem.Controllers
         [HttpPost]
         public IActionResult Create(Member member)
         {
-            _memberRepository.Create(member);
-            return RedirectToAction("MemberTable");
+            _context.Members.Add(member);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Update(int id)
         {
-            var member = _memberRepository.GetById(id);
+            var member = _context.Members.Where(m => m.MemberID == id).First();
             return View(member);
         }
 
         [HttpPost]
         public IActionResult Update(Member member)
         {
-            _memberRepository.Update(member);
-            return RedirectToAction("MemberTable");
+            _context.Members.Update(member);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

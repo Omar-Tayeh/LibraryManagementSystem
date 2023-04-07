@@ -9,54 +9,62 @@ namespace LibraryManagmentSystem.Controllers
     public class IssueBookController : Controller
 
     {
-        private readonly IBookRepository _bookRepository;
-        private readonly IMemberRepository _memberRepository;
         protected readonly LibraryDbContext _context;
         
 
-        public IssueBookController(IBookRepository bookRepository, IMemberRepository memberRepository, LibraryDbContext context)
+        public IssueBookController(LibraryDbContext context)
         {
-            _bookRepository = bookRepository;
-            _memberRepository = memberRepository;
             _context = context;
         }
 
         
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string search)
         {
-            //var BooksInStock = _bookRepository.FindAll(s => s.Inventory > 0);
-            var BooksInStock = _context.Books.Where(s => s.Inventory > 0);
-
-            if (BooksInStock.Count() == 0)
+            if (string.IsNullOrEmpty(search))
             {
-                return View("Empty");
+                var BooksInStock = _context.Books.Where(s => s.Inventory > 0);
+
+                if (BooksInStock.Count() == 0)
+                {
+                    return View("Empty");
+                }
+                else
+                {
+                    return View(BooksInStock);
+                }
             }
             else
             {
-                return View(BooksInStock);
+                var BooksInStock = _context.Books.Where(s => s.Inventory > 0 && s.Title.Contains(search));
+                if (BooksInStock.Count() == 0)
+                {
+                    return View("Empty");
+                }
+                else
+                {
+                    return View(BooksInStock);
+                }
             }
         }
 
-        public IActionResult Issue(int bookid)
+        public async Task<IActionResult> Issue(int bookid)
         {
             var issueBookVM = new IssueBookViewModel()
             {
-                Book = _bookRepository.GetById(bookid),
-                Members = _memberRepository.GetAll()
+                Book = _context.Books.Where(b => b.BookID == bookid).First(),
+                Members = _context.Members.ToList()
             };
             return View(issueBookVM);
         }
 
         [HttpPost]
-        public IActionResult Issue(IssueBookViewModel issueBookViewModel, IssueTransaction issueTransaction)
+        public async Task<IActionResult> Issue(IssueBookViewModel issueBookViewModel, IssueTransaction issueTransaction)
         {
-            var book = _bookRepository.GetById(issueBookViewModel.Book.BookID);
+            var book = _context.Books.Where(b => b.BookID == issueBookViewModel.Book.BookID).First();
 
-            var member = _memberRepository.GetById(issueBookViewModel.Book.BorrowerID);
+            var member = _context.Members.Where( m => m.MemberID == issueBookViewModel.Book.BorrowerID).First();
 
-            //book.Borrower = member;
             book.Inventory = --book.Inventory;
-
 
             issueTransaction.BookID = book.BookID;
             issueTransaction.MemberID = member.MemberID;
@@ -64,8 +72,8 @@ namespace LibraryManagmentSystem.Controllers
             issueTransaction.DueDate = DateTime.Today.Date.AddDays(7);
             issueTransaction.Status = false;
             _context.IssueTransactions.Add(issueTransaction);
-            
-            _bookRepository.Update(book);
+            _context.Books.Update(book);
+            _context.SaveChanges();
 
             return RedirectToAction("Index");
         }

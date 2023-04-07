@@ -6,6 +6,11 @@
         <h3 class="col-md-offset-2">Edit Member @Model.MemberName</h3>
         @Html.HiddenFor(m => Model.MemberID)
         <div class="form-group">
+            <label asp-for="StudentID" class="col-md-2 control-label"></label>
+            <div class="col-md-6">
+                <input asp-for="StudentID" class="form-control" />
+                <span asp-validation-for="StudentID" class="text-danger"></span>
+            </div>
             <label asp-for="MemberName" class="col-md-2 control-label"></label>
             <div class="col-md-6">
                 <input asp-for="MemberName" class="form-control" />
@@ -16,10 +21,15 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            <label asp-for="Address" class="col-md-2 control-label"></label>
+            <div class="col-md-6">
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
         </div>
         <div class="form-group">
             <div class="btn-group col-md-offset-2 col-md-6">
-                <input class="btn btn-default" type="submit" value="Cancel" asp-controller="Member" asp-action="MemberTable" />
+                <input class="btn btn-default" type="submit" value="Cancel" asp-controller="Member" asp-action="Index" />
                 <input class="btn btn-success" type="submit" value="Update" />
             </div>
         </div>

@@ -1,4 +1,5 @@
-﻿using LibraryManagmentSystem.Data.Interfaces;
+﻿using LibraryManagmentSystem.Data;
+using LibraryManagmentSystem.Data.Interfaces;
 using LibraryManagmentSystem.Data.Model;
 using LibraryManagmentSystem.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -7,30 +8,27 @@ namespace LibraryManagmentSystem.Controllers
 {
     public class BookController : Controller
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly LibraryDbContext _context;
 
-        public BookController(IBookRepository bookRepository)
+        public BookController(LibraryDbContext context)
         {
-            _bookRepository = bookRepository;
+            _context = context;
         }
 
         [Route("Book")]
-        public IActionResult BookTable(int? borrowerID)
+        public IActionResult Index(string search)
         {
-            if(borrowerID == null)
+            if (string.IsNullOrEmpty(search))
             {
-                var books = _bookRepository.GetAll();
-                return CheckBooks(books);
-            }
-            else if(borrowerID.HasValue)
-            {
-                var books = _bookRepository.FindWithBorrower(b => b.BorrowerID == borrowerID);
+                var books = _context.Books.ToList();
                 return CheckBooks(books);
             }
             else
             {
-                throw new ArgumentException();
+                var books = _context.Books.Where(b => b.Title.Contains(search)).ToList();
+                return CheckBooks(books);
             }
+
         }
         public IActionResult CheckBooks(IEnumerable<Book> books)
         {
@@ -46,10 +44,10 @@ namespace LibraryManagmentSystem.Controllers
 
         public IActionResult Delete(int id)
         {
-            var book = _bookRepository.GetById(id);
-
-            _bookRepository.Delete(book);
-            return RedirectToAction("BookTable");
+            var book = _context.Books.Where(b => b.BookID == id).First();
+            _context.Remove(book);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Create()
@@ -60,21 +58,23 @@ namespace LibraryManagmentSystem.Controllers
         [HttpPost]
         public IActionResult Create(Book book)
         {
-            _bookRepository.Create(book);
-            return RedirectToAction("BookTable");
+            _context.Books.Add(book);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Update(int id)
         {
-            var book = _bookRepository.GetById(id);
+            var book = _context.Books.Where(b => b.BookID == id).First();
             return View(book);
         }
 
         [HttpPost]
         public IActionResult Update(Book book)
         {
-            _bookRepository.Update(book);
-            return RedirectToAction("BookTable");
+            _context.Books.Update(book);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

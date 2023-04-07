@@ -28,20 +28,22 @@ namespace LibraryManagmentSystem.Controllers
         }
 
         // GET: ReturnBook
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-              return _context.IssueTransactions != null ? 
-                          View(await _context.IssueTransactions.ToListAsync()) :
-                          Problem("Entity set 'LibraryDbContext.IssueTransactions'  is null.");
+            if (string.IsNullOrEmpty(search))
+            {
+                return _context.IssueTransactions != null ?
+                            View(await _context.IssueTransactions.ToListAsync()) :
+                            Problem("Entity set 'LibraryDbContext.IssueTransactions'  is null.");
+            }
+            else
+            {
+                return _context.IssueTransactions != null ?
+                            View(await _context.IssueTransactions.Where(i => i.MemberID.ToString().Equals(search)).ToListAsync()) :
+                            Problem("Entity set 'LibraryDbContext.IssueTransactions'  is null.");
+            }
         }
-        /*public IActionResult Return(int transactionId)
-        {
-            var transaction = _context.IssueTransactions.Where(t => t.Equals(transactionId)).FirstOrDefault();
 
-            return View(transaction);
-        }
-
-        [HttpPost]*/
         public IActionResult Return(int transactionId)
         {
             var transaction = _context.IssueTransactions.Where(t => t.TransactionId.Equals(transactionId)).FirstOrDefault();

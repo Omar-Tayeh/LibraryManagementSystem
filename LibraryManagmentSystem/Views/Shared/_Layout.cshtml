@@ -26,10 +26,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="MemberTable">Members</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Index">Members</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="BookTable">Books</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Books</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="IssueBook" asp-action="">Issue</a>
@@ -40,6 +40,7 @@
                     </ul>
                 </div>
             </div>
+            <partial name="_LoginPartial" />
         </nav>
     </header>
     <div class="container">
@@ -56,6 +57,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/select2/js/select2.min.js"></script>
+    <link href="~/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" />
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
