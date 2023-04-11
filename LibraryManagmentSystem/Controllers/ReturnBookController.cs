@@ -15,15 +15,11 @@ namespace LibraryManagmentSystem.Controllers
 {
     public class ReturnBookController : Controller
     {
-        private readonly IBookRepository _bookRepository;
-        private readonly IMemberRepository _memberRepository;
         protected readonly LibraryDbContext _context;
 
 
-        public ReturnBookController(IBookRepository bookRepository, IMemberRepository memberRepository, LibraryDbContext context)
+        public ReturnBookController(LibraryDbContext context)
         {
-            _bookRepository = bookRepository;
-            _memberRepository = memberRepository;
             _context = context;
         }
 

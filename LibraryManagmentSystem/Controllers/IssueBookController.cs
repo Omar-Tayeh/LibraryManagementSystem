@@ -18,10 +18,8 @@ namespace LibraryManagmentSystem.Controllers
         }
 
         
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index()
         {
-            if (string.IsNullOrEmpty(search))
-            {
                 var BooksInStock = _context.Books.Where(s => s.Inventory > 0);
 
                 if (BooksInStock.Count() == 0)
@@ -32,45 +30,36 @@ namespace LibraryManagmentSystem.Controllers
                 {
                     return View(BooksInStock);
                 }
-            }
-            else
-            {
-                var BooksInStock = _context.Books.Where(s => s.Inventory > 0 && s.Title.Contains(search));
-                if (BooksInStock.Count() == 0)
-                {
-                    return View("Empty");
-                }
-                else
-                {
-                    return View(BooksInStock);
-                }
-            }
         }
 
-        public async Task<IActionResult> Issue(int bookid)
+        public IActionResult Issue(int bookid)
         {
-            var issueBookVM = new IssueBookViewModel()
-            {
-                Book = _context.Books.Where(b => b.BookID == bookid).First(),
-                Members = _context.Members.ToList()
-            };
-            return View(issueBookVM);
+            
+                var issueBookVM = new IssueBookViewModel()
+                {
+                    Book = _context.Books.Where(b => b.BookID == bookid).First(),
+                    Members = _context.Members.ToList()
+                };
+                return View(issueBookVM);
+            
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Issue(IssueBookViewModel issueBookViewModel, IssueTransaction issueTransaction)
+        public IActionResult Lend(int bookId, int memberId)
         {
-            var book = _context.Books.Where(b => b.BookID == issueBookViewModel.Book.BookID).First();
+            var book = _context.Books.Where(b => b.BookID == bookId).First();
 
-            var member = _context.Members.Where( m => m.MemberID == issueBookViewModel.Book.BorrowerID).First();
+            var member = _context.Members.Where(m => m.MemberID == memberId).First();
 
             book.Inventory = --book.Inventory;
 
-            issueTransaction.BookID = book.BookID;
-            issueTransaction.MemberID = member.MemberID;
-            issueTransaction.IssueDate = DateTime.Today.Date;
-            issueTransaction.DueDate = DateTime.Today.Date.AddDays(7);
-            issueTransaction.Status = false;
+            var issueTransaction = new IssueTransaction
+            {
+                BookID = book.BookID,
+                MemberID = member.MemberID,
+                IssueDate = DateTime.Today.Date,
+                DueDate = DateTime.Today.Date.AddDays(7),
+                Status = false
+            };
             _context.IssueTransactions.Add(issueTransaction);
             _context.Books.Update(book);
             _context.SaveChanges();

@@ -16,19 +16,10 @@ namespace LibraryManagmentSystem.Controllers
         }
 
         [Route("Book")]
-        public IActionResult Index(string search)
+        public IActionResult Index()
         {
-            if (string.IsNullOrEmpty(search))
-            {
                 var books = _context.Books.ToList();
                 return CheckBooks(books);
-            }
-            else
-            {
-                var books = _context.Books.Where(b => b.Title.Contains(search)).ToList();
-                return CheckBooks(books);
-            }
-
         }
         public IActionResult CheckBooks(IEnumerable<Book> books)
         {

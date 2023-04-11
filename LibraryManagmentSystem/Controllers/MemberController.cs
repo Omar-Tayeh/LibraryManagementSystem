@@ -16,10 +16,8 @@ namespace LibraryManagmentSystem.Controllers
         }
 
         [Route("Member")]
-        public IActionResult Index(string search)
+        public IActionResult Index()
         {
-            if (string.IsNullOrEmpty(search))
-            {
                 var memberVM = new List<ViewModel.MemberViewModel>();
                 var members = _context.Members.ToList();
 
@@ -39,29 +37,6 @@ namespace LibraryManagmentSystem.Controllers
                 }
 
                 return View(memberVM);
-            }
-            else
-            {
-                var memberVM = new List<ViewModel.MemberViewModel>();
-                var members = _context.Members.Where(m => m.MemberName.Contains(search)).ToList();
-
-                if (members.Count() == 0 )
-                {
-                    return View("Empty");
-                }
-
-                foreach (var member in members)
-                {
-                    memberVM.Add(new ViewModel.MemberViewModel
-                    {
-                        Member = member,
-                        BookCount = _context.IssueTransactions.Count(m => m.MemberID == member.MemberID && m.Status == false)
-                    });
-
-                }
-
-                return View(memberVM);
-            }
         }
 
         public IActionResult Delete(int id)

@@ -6,19 +6,23 @@
 
 <h1>Books Borrowings</h1>
 
+<br />
+
 <form asp-action="Index">
     <div class="input-group md-form form-sm form-2 pl-0">
-        <input name="search" class="form-control my-0 py-1 red-border" type="text" placeholder="Search">
+        <input name="search" class="form-control my-0 py-1 red-border" type="text" placeholder="Search By Member ID Number">
         <div class="input-group-append">
-            <span class="input-group-text" id="js-search">
-                <i class="fas fa-search text-grey"></i>
-            </span>
+            <button class="input-group-text" id="js-search">
+                <i class="fa fa-search"></i>
+            </button>
         </div>
     </div>
 </form>
 
-<table class="table">
-    <thead>
+<br />
+
+<table class="table table-responsive table-hover table-bordered">
+    <thead class="table-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.TransactionId)
@@ -45,9 +49,9 @@
             if (item.Status == false)
         {
         <tr>
-        <td>
+        <th scope="row">
             @Html.DisplayFor(modelItem => item.TransactionId)
-        </td>
+        </th>
         <td>
             @Html.DisplayFor(modelItem => item.MemberID)
         </td>
@@ -61,7 +65,7 @@
             @Html.DisplayFor(modelItem => item.DueDate)
         </td>
         <td>
-            <a class="btn btn-success" asp-area="" asp-controller="ReturnBook" asp-action="Return" asp-route-transactionId="@item.TransactionId">Return</a>
+            <a class="btn btn-outline-success" asp-area="" asp-controller="ReturnBook" asp-action="Return" asp-route-transactionId="@item.TransactionId">Return</a>
         </td>
         </tr>
         }

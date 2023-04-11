@@ -8,5 +8,6 @@
         public string Author { get; set; }
         public int Inventory { get; set; }
         public int BorrowerID { get; set; }
+       // public IFormFile Photo { get; set; }
     }
 }

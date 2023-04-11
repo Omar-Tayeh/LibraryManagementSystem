@@ -1,38 +1,58 @@
 ﻿@using LibraryManagmentSystem.ViewModel;
+@using LibraryManagmentSystem.Data.Model;
 @model IssueBookViewModel
-<div class="row orderForm">
+@{
+    ViewData["Title"] = "Issuing Books";
+}
 
-    <form asp-controller="IssueBook" asp-action="Issue" method="post" class="form-horizontal" role="form">
-        <h3 class="col-md-offset-2">Issue a book</h3>
-        @Html.HiddenFor(m => Model.Book.BookID)
-        <div class="form-group">
-            <label asp-for="Members" class="col-md-2 control-label"></label>
-            <div class="col-md-6">
+<h1>Issuing Books</h1>
 
-                @Html.DropDownListFor(m => m.Book.BorrowerID,
-                new SelectList(Model.Members.Select(x => new { Value = x.MemberID, Text = x.MemberName }), "Value", "Text"),
-                "Select Customer",
-                htmlAttributes: new { @class = "form-control select2" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="btn-group col-md-offset-2 col-md-6">
-                <input class="btn btn-default" type="submit" value="Cancel" asp-controller="IssueBook" asp-action="Index" />
-                <input class="btn btn-success" type="submit" value="Issue" />
-            </div>
-        </div>
-    </form>
+
+<div class="input-group md-form form-sm form-2 pl-0">
+    <input id="search" class="form-control my-0 py-1 red-border" type="text" placeholder="Search">
+    <div class="input-group-append">
+            <button class="input-group-text" onclick="search()">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
 </div>
 
 
-@section Scripts{
- <script>
-$(document).ready(function() {
-    $('.select2').select2({
-        liveSearch: true,
-        showSubtext: true
-    });
-});
+<br />
 
-</script>
+
+<table class="table table-responsive table-hover table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Issue</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Member member in Model.Members)
+        {
+            <tr>
+                <th scope="row">@member.MemberID</th>
+                <td>@member.MemberName</td>
+                <td><a class="btn btn-outline-success" asp-area="" asp-controller="IssueBook" asp-action="Lend" asp-route-memberId="@member.MemberID" asp-route-bookId="@Model.Book.BookID">Select</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts{
+    <script>
+        function search() {
+            $("tr").each(function (index, value) {
+                if (index > 0 && !$(this).find("td")[0].innerText.toLowerCase().includes($("#search").val().toLowerCase())) {
+                    $(this).attr("hidden", true);
+                } else {
+                    $(this).removeAttr("hidden");
+                }
+                console.log(value);
+            })
+        }
+    </script>
 }
