@@ -1,8 +1,9 @@
-﻿@model LibraryManagmentSystem.Data.Model.Book
+﻿@model LibraryManagmentSystem.ViewModel.BookViewModel
 
 
 <div class="row orderForm">
-    <form asp-controller="Book" asp-action="Create" method="post" class="form-horizontal" role="form">
+    <form asp-controller="Book" asp-action="Create" enctype="multipart/form-data"
+            method="post" class="form-horizontal" role="form">
         <h3 class="col-md-offset-2">Create new Book</h3>
         <div class="form-group">
             <label asp-for="Title" class="col-md-2 control-label"></label>
@@ -25,11 +26,11 @@
                 <input asp-for="Inventory" class="form-control" placeholder="Enter book author" />
                 <span asp-validation-for="Inventory" class="text-danger"></span>
             </div>
-            @*<label asp-for="Photo" class="col-md-2 control-label"></label>
-            <div class="col-md-6">
-                <input asp-for="Photo" class="form-control" placeholder="Enter book author" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
-            </div>*@
+            <label asp-for="PhotoVM" class="col-md-2 control-label"></label>
+            <div class="form-control col-md-6">
+                <input asp-for="PhotoVM" class="form-control" />
+                <span asp-validation-for="PhotoVM" class="text-danger"></span>
+            </div>
         </div>
         <div class="form-group">
             <div class="btn-group col-md-offset-2 col-md-6">

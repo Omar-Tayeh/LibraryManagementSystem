@@ -1,3 +1,4 @@
+using LibraryManagmentSystem.Authorization;
 using LibraryManagmentSystem.Data;
 using LibraryManagmentSystem.Data.Interfaces;
 using LibraryManagmentSystem.Data.Repository;
@@ -25,7 +26,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<IMemberRepository, MemberRepository>();
 builder.Services.AddTransient<IBookRepository, BookRepository>();
-
+builder.Services.AddSingleton<IAuthorizationHandler, ManagerAuthurizationHandler>();
 
 var app = builder.Build();
 

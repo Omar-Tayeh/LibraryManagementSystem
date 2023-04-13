@@ -1,6 +1,6 @@
-﻿namespace LibraryManagmentSystem.Data.Model
+﻿namespace LibraryManagmentSystem.ViewModel
 {
-    public class Book
+    public class BookViewModel : EditImageViewModel
     {
         public int BookID { get; set; }
         public string Title { get; set; }
@@ -8,6 +8,5 @@
         public string Author { get; set; }
         public int Inventory { get; set; }
         public int BorrowerID { get; set; }
-        public string? PhotoName { get; set; }
     }
 }

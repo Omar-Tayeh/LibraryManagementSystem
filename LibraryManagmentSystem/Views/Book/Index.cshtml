@@ -32,8 +32,8 @@ Create a new Book <i class="fa fa-plus-square"></i>
 <table class="table table-responsive table-hover table-bordered">
     <thead class="table-dark">
         <tr>
-            <th>ID</th>@*
-            <th>Picture</th>*@
+            <th>ID</th>
+            <th>Picture</th>
             <th>Title</th>
             <th>Description</th>
             <th>Author</th>
@@ -47,7 +47,7 @@ Create a new Book <i class="fa fa-plus-square"></i>
         {
             <tr>
                 <th scope="row">@Book.BookID</th>
-                @*<td>@Book.Photo</td>*@
+                <td><img src="~/Images/@Book.PhotoName" class="rounded-circle" width="40" asp-append-version="true" /></td>
                 <td>@Book.Title</td>
                 <td>@Book.Description</td>
                 <td>@Book.Author</td>

@@ -28,5 +28,7 @@ namespace LibraryManagmentSystem.Authorization
 
         public static readonly string IssueOperationName = "Issue";
         public static readonly string ReturnOperationName = "Return";
+
+        public static readonly string ManagerRole = "Menager";
     }
 }
