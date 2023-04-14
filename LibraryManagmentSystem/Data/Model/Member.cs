@@ -7,6 +7,11 @@
         public string MemberName { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
-        public bool AccountStatus { get; set; }
+        public AccountStatus Status { get; set; }
+    }
+    public enum AccountStatus
+    {
+        Active,
+        Blocked
     }
 }

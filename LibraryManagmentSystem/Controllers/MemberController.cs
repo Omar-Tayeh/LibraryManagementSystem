@@ -1,7 +1,10 @@
-﻿using LibraryManagmentSystem.Data;
+﻿using LibraryManagmentSystem.Authorization;
+using LibraryManagmentSystem.Data;
 using LibraryManagmentSystem.Data.Interfaces;
 using LibraryManagmentSystem.Data.Model;
 using LibraryManagmentSystem.ViewModel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagmentSystem.Controllers
@@ -10,9 +13,16 @@ namespace LibraryManagmentSystem.Controllers
       
     {
         protected readonly LibraryDbContext _context;
-        public MemberController(LibraryDbContext context)
+        protected readonly IAuthorizationService _authorizationService;
+        protected readonly UserManager<IdentityUser> _userManager;
+        public MemberController(LibraryDbContext context,
+            IAuthorizationService authorizationService,
+            UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _authorizationService = authorizationService;
+            _userManager = userManager;
+
         }
 
         [Route("Member")]
@@ -67,8 +77,19 @@ namespace LibraryManagmentSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(Member member)
+        public async Task<IActionResult> Update(Member member, AccountStatus status)
         {
+            if(status == null)
+            {
+                var libraryOperation = status == AccountStatus.Active
+                    ? LibraryOperations.Activate
+                    : LibraryOperations.Block;
+                var isAuthorized = await _authorizationService.AuthorizeAsync(
+                    User, member, libraryOperation);
+                if (isAuthorized.Succeeded == false)
+                    return Forbid();
+                member.Status = status;
+            }
             _context.Members.Update(member);
             _context.SaveChanges();
             return RedirectToAction("Index");

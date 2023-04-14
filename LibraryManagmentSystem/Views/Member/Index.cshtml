@@ -10,7 +10,10 @@
 <br />
 
 <a class="btn btn-primary btn-rounded mb-2" asp-controller="Member" asp-action="Create">
-    Create new Member <i class="fa fa-plus-square"></i>
+    Create new Member
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+    </svg>
 </a>
 
 <br />
@@ -35,6 +38,7 @@
             <th>Email</th>
             <th>Address</th>
             <th>Borrowed books count</th>
+            <th>Account Status</th>
             <th>Edit Member</th>
             <th>Delete Member</th>
         </tr>
@@ -49,6 +53,7 @@
                 <td>@MemberVM.Member.Email</td>
                 <td>@MemberVM.Member.Address</td>
                 <td>@MemberVM.BookCount</td>
+                <td>@MemberVM.Member.Status</td>
                 <td><a class="btn btn-outline-info" asp-area="" asp-controller="Member" asp-action="Update" asp-route-id="@MemberVM.Member.MemberID">Edit</a></td>
                 <td><a class="btn btn-outline-danger" asp-area="" asp-controller="Member" asp-action="Delete" asp-route-id="@MemberVM.Member.MemberID">Delete</a></td>
             </tr>

@@ -1,7 +1,7 @@
 ﻿﻿@using LibraryManagmentSystem.Data.Model
 @model LibraryManagmentSystem.ViewModel.BookViewModel
 
-<div class="row orderForm">
+<div class="container">
     <form asp-controller="book" asp-action="Update" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
         <h3 class="col-md-offset-2">Edit Book @Model.Title</h3>
         @Html.HiddenFor(m => Model.BookID)
@@ -26,9 +26,14 @@
                 <input asp-for="Inventory" class="form-control" />
                 <span asp-validation-for="Inventory" class="text-danger"></span>
             </div>
+            <label asp-for="ExistingImage" class="col-md-2 control-label"></label>
+            <div class="form-control col-md-6">
+                <input asp-for="ExistingImage" class="form-control" placeholder="Browse for an Image" />
+                <span asp-validation-for="ExistingImage" class="text-danger"></span>
+            </div>
             <label asp-for="PhotoVM" class="col-md-2 control-label"></label>
             <div class="form-control col-md-6">
-                <input asp-for="PhotoVM" class="form-control" placeholder="Enter book author" />
+                <input asp-for="PhotoVM" class="form-control" placeholder="Browse for an Image" />
                 <span asp-validation-for="PhotoVM" class="text-danger"></span>
             </div>
         </div>

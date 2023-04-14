@@ -98,6 +98,7 @@ namespace LibraryManagmentSystem.Controllers
                 Description = book.Description,
                 Author = book.Author,
                 Inventory = book.Inventory,
+                ExistingImage = book.PhotoName
             };
 
             if (book == null)

@@ -18,6 +18,12 @@ namespace LibraryManagmentSystem.Authorization
 
         public static OperationAuthorizationRequirement Return =
             new OperationAuthorizationRequirement { Name = Constants.CreateOperationName };
+
+        public static OperationAuthorizationRequirement Activate =
+            new OperationAuthorizationRequirement { Name = Constants.ActivateOperationName };
+
+        public static OperationAuthorizationRequirement Block =
+            new OperationAuthorizationRequirement { Name = Constants.BlockOperationName };
     }
 
     public class Constants
@@ -28,6 +34,9 @@ namespace LibraryManagmentSystem.Authorization
 
         public static readonly string IssueOperationName = "Issue";
         public static readonly string ReturnOperationName = "Return";
+
+        public static readonly string ActivateOperationName = "Activate";
+        public static readonly string BlockOperationName = "Block";
 
         public static readonly string ManagerRole = "Menager";
     }
