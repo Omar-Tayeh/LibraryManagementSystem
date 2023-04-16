@@ -38,7 +38,7 @@ namespace LibraryManagmentSystem.Controllers
                 var issueBookVM = new IssueBookViewModel()
                 {
                     Book = _context.Books.Where(b => b.BookID == bookid).First(),
-                    Members = _context.Members.ToList()
+                    Members = _context.Members.Where(m => m.Status.Equals(AccountStatus.Active)).ToList()
                 };
                 return View(issueBookVM);
             

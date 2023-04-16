@@ -7,11 +7,18 @@ namespace LibraryManagmentSystem.Data
 {
     public class SeedData
     {
+        private readonly LibraryDbContext _context;
+        public SeedData(LibraryDbContext context)
+        {
+            _context = context;
+        }
+
+        
         public static async Task Initialize(
             IServiceProvider serviceProvider,
             string password = "Test@1234")
         {
-           using(var _context = new LibraryDbContext(serviceProvider.GetRequiredService<DbContextOptions<LibraryDbContext>>()))
+            using (var _context = new LibraryDbContext(serviceProvider.GetRequiredService<DbContextOptions<LibraryDbContext>>()))
             {
                 var managerUid = await EnsureUser(serviceProvider, "manager@livlib.com", password);
                 await EnsureRole(serviceProvider, managerUid, Constants.ManagerRole);
@@ -46,7 +53,7 @@ namespace LibraryManagmentSystem.Data
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
             IdentityResult ir;
 
-            if(await roleManager.RoleExistsAsync(role) == false)
+            if (await roleManager.RoleExistsAsync(role) == false)
             {
                 ir = await roleManager.CreateAsync(new IdentityRole(role));
             }
@@ -60,6 +67,88 @@ namespace LibraryManagmentSystem.Data
             ir = await userManager.AddToRoleAsync(user, role);
 
             return ir;
+        }
+
+        public static void Seed(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var _context = serviceScope.ServiceProvider.GetService<LibraryDbContext>();
+
+                if (!_context.Books.Any())
+                {
+                    var books = new List<Book>()
+                {
+                new Book()
+                {
+                    Title = "Tree Book",
+                    Description = "Trees",
+                    Author = "Forest Author",
+                    Inventory = 0
+                },
+                new Book()
+                {
+                    Title = "Veggies Book",
+                    Description = "Vegtables",
+                    Author = "Forest Author",
+                    Inventory = 5
+                },
+                new Book()
+                {
+                    Title = "Plant Book",
+                    Description = "Grow plants",
+                    Author = "Forest Author",
+                    Inventory = 5
+                },
+                new Book()
+                {
+                    Title = "Rock Book",
+                    Description = "Rock types",
+                    Author = "Forest Author",
+                    Inventory = 5
+                }
+                };
+                    _context.Books.AddRange(books);
+                    _context.SaveChanges();
+                }
+                if (!_context.Members.Any())
+                {
+                    var members = new List<Member>()
+            {
+                new Member()
+                {
+                    MemberName = "Mem 1",
+                    Email = "mem1@mem1.com",
+                    StudentID = 1111,
+                    Address = "Manchester",
+                    Status = AccountStatus.Active
+                },
+                new Member()
+                {
+                    MemberName = "Mem 2",
+                    Email = "mem2@mem2.com",
+                    StudentID = 1112,
+                    Address = "Birmingham"
+                },
+                new Member()
+                {
+                    MemberName = "Mem 3",
+                    Email = "mem3@mem3.com",
+                    StudentID = 1113,
+                    Address = "London"
+                },
+                new Member()
+                {
+                    MemberName = "Mem 4",
+                    Email = "mem4@mem4.com",
+                    StudentID = 1114,
+                    Address = "Liverpool"
+                }
+            };
+                    _context.Members.AddRange(members);
+                    _context.SaveChanges();
+                }
+            }
         }
     }
 }
