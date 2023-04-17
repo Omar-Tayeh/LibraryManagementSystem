@@ -81,13 +81,12 @@ namespace LibraryManagmentSystem.Controllers
         {
             if(status == null)
             {
-                var libraryOperation = status == AccountStatus.Active
-                    ? LibraryOperations.Activate
-                    : LibraryOperations.Block;
-                var isAuthorized = await _authorizationService.AuthorizeAsync(
-                    User, member, libraryOperation);
-                if (isAuthorized.Succeeded == false)
+                var isManager = User.IsInRole(Constants.ManagerRole);
+                var isAdmin = User.IsInRole(Constants.AdminRole);
+
+                if (isManager == false|| isAdmin == false)
                     return Forbid();
+
                 member.Status = status;
             }
             _context.Members.Update(member);

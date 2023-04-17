@@ -20,8 +20,13 @@ namespace LibraryManagmentSystem.Data
         {
             using (var _context = new LibraryDbContext(serviceProvider.GetRequiredService<DbContextOptions<LibraryDbContext>>()))
             {
+                //Manager Role and User
                 var managerUid = await EnsureUser(serviceProvider, "manager@livlib.com", password);
                 await EnsureRole(serviceProvider, managerUid, Constants.ManagerRole);
+
+                //Admin Role and User
+                var adminUid = await EnsureUser(serviceProvider, "admin@livlib.com", password);
+                await EnsureRole(serviceProvider, adminUid, Constants.AdminRole);
             }
         }
 

@@ -27,6 +27,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddTransient<IMemberRepository, MemberRepository>();
 builder.Services.AddTransient<IBookRepository, BookRepository>();
 builder.Services.AddSingleton<IAuthorizationHandler, ManagerAuthurizationHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, AdminAuthorizationHandler>();
 
 var app = builder.Build();
 
