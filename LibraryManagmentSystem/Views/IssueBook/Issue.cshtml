@@ -7,11 +7,12 @@
 
 <h1>Issuing Books</h1>
 
+<br/>
 
 <div class="input-group md-form form-sm form-2 pl-0">
-    <input id="search" class="form-control my-0 py-1 red-border" type="text" placeholder="Search">
+    <input id="myInput" class="form-control my-0 py-1 red-border" type="text" placeholder="Search">
     <div class="input-group-append">
-            <button class="input-group-text" onclick="search()">
+        <button class="input-group-text" onclick="search()">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
             </svg>
@@ -23,9 +24,9 @@
 <br />
 
 
-<table class="table table-responsive table-hover table-bordered">
+<table class="table table-responsive table-hover table-bordered" id="myTable">
     <thead class="table-dark">
-        <tr>
+        <tr id="tableHeader">
             <th>ID</th>
             <th>Name</th>
             <th>Issue</th>
@@ -37,24 +38,43 @@
             <tr>
                 <th scope="row">@member.MemberID</th>
                 <td>@member.MemberName</td>
-                <td><a class="btn btn-outline-success" asp-area="" asp-controller="IssueBook" asp-action="Lend" asp-route-memberId="@member.MemberID" asp-route-bookId="@Model.Book.BookID">Select</a></td>
+                <td><a class="btn btn-outline-success" asp-area="" asp-controller="IssueBook" asp-action="Lend" asp-route-memberId="@member.MemberID" asp-route-bookId="@Model.Book.BookID">Lend</a></td>
             </tr>
         }
     </tbody>
 </table>
-
+<div class="align-content-center">
+    <span id="errmsg"></span>
+</div>
 
 @section scripts{
     <script>
         function search() {
-            $("tr").each(function (index, value) {
-                if (index > 0 && !$(this).find("td")[0].innerText.toLowerCase().includes($("#search").val().toLowerCase())) {
-                    $(this).attr("hidden", true);
-                } else {
-                    $(this).removeAttr("hidden");
+            var input, filter, found, table, tr, td, i, j, empty = true;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                    }
                 }
-                console.log(value);
-            })
+                if (found) {
+                    tr[i].style.display = "";
+                    found = false;
+                    empty = false;
+                } else if (tr[i].id != 'tableHeader') {
+                    tr[i].style.display = "none";
+                }
+            }
+            if (empty) {
+                document.getElementById("errmsg").innerHTML = "No records were foundd";
+            } else {
+                document.getElementById("errmsg").innerHTML = "End";
+            }
         }
     </script>
 }

@@ -7,78 +7,104 @@
     ViewData["Title"] = "Books";
 }
 <div class="container">
-<h1>Library Books</h1>
+    <h1>Library Books</h1>
 
-<br />
+    <br />
 
-<a class="btn btn-primary btn-rounded mb-2" asp-controller="Book" asp-action="Create">
+    <a class="btn btn-primary btn-rounded mb-2" asp-controller="Book" asp-action="Create">
         Create a new Book
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
         </svg>
-</a>
+    </a>
 
-<clear />
+    <clear />
 
-<div class="input-group md-form form-sm form-2 pl-0">
-    <input id="search" class="form-control my-0 py-1 red-border" type="text" placeholder="Search">
-    <div class="input-group-append">
-        <button class="input-group-text" onclick="search()">
+    <div class="input-group md-form form-sm form-2 pl-0">
+        <input id="myInput" class="form-control my-0 py-1 red-border" type="text" placeholder="Search">
+        <div class="input-group-append">
+            <button class="input-group-text" onclick="search()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                 </svg>
-        </button>
+            </button>
+        </div>
     </div>
-</div>
 
 
-<br />
+    <br />
 
-<table class="table table-responsive table-hover table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Picture</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Author</th>
-            <th>Inventory</th>
-            <th>Edit Book</th>
-            <th>Delete Book</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var Book in Model)
-        {
-            <tr class="align-middle justify-content-center">
-                <th scope="row">@Book.BookID</th>
-                <td><img src="~/Images/@Book.PhotoName" class="img-fluid" width="100" asp-append-version="true" /></td>
-                <td>@Book.Title</td>
-                <td>@Book.Description</td>
-                <td>@Book.Author</td>
-                <td>@Book.Inventory</td>
-                <td><a class="btn btn-outline-info" asp-area="" asp-controller="Book" asp-action="Update" asp-route-id="@Book.BookID">Edit</a></td>
-                <td><a class="btn btn-outline-danger" asp-area="" asp-controller="Book" asp-action="Delete" asp-route-id="@Book.BookID">Delete</a></td>
+    <table class="table table-responsive table-hover table-bordered" id='myTable'>
+        <thead class="table-dark">
+            <tr id="tableHeader">
+                <th>ID</th>
+                <th>Picture</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Author</th>
+                <th>Inventory</th>
+                <th>Edit Book</th>
+                <th>Delete Book</th>
             </tr>
-        }
-    </tbody>
-</table>
-
+        </thead>
+        <tbody>
+            @foreach (var Book in Model)
+            {
+                <tr class="align-middle justify-content-center">
+                    <th scope="row">@Book.BookID</th>
+                    <td>
+                        @if (Book.PhotoName == null)
+                        {
+                            <img src="~/Images/free_icon_from_icons8.com-no-image-100.png" class="img-fluid" width="100" asp-append-version="true" />
+                        }
+                        else
+                        {
+                            <img src="~/Images/@Book.PhotoName" class="img-fluid" width="100" asp-append-version="true" />
+                        }
+                    </td>
+                    <td>@Book.Title</td>
+                    <td>@Book.Description</td>
+                    <td>@Book.Author</td>
+                    <td>@Book.Inventory</td>
+                    <td><a class="btn btn-outline-info" asp-area="" asp-controller="Book" asp-action="Update" asp-route-id="@Book.BookID">Edit</a></td>
+                    <td><a class="btn btn-outline-danger" asp-area="" asp-controller="Book" asp-action="Delete" asp-route-id="@Book.BookID">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="align-content-center">
+    <span id="errmsg"></span>
+    </div>
 </div>
 
 @section scripts{
     <script>
         function search() {
-            $("tr").each(function (index, value) {
-                if (index > 0 && !$(this).find("td")[0].innerText.toLowerCase().includes($("#search").val().toLowerCase()) &&
-                !$(this).find("td")[1].innerText.toLowerCase().includes($("#search").val().toLowerCase()) && 
-                    !$(this).find("td")[2].innerText.toLowerCase().includes($("#search").val().toLowerCase())) {
-                    $(this).attr("hidden", true);
-                } else {
-                    $(this).removeAttr("hidden");
+            var input, filter, found, table, tr, td, i, j, empty = true;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                    }
                 }
-                console.log(value);
-            })
+                if (found) {
+                    tr[i].style.display = "";
+                    found = false;
+                    empty = false;
+                } else if (tr[i].id != 'tableHeader') {
+                    tr[i].style.display = "none";
+                }
+            }
+            if (empty) {
+                document.getElementById("errmsg").innerHTML = "No records were foundd";
+            } else {
+                document.getElementById("errmsg").innerHTML = "End";
+            }
         }
     </script>
 }

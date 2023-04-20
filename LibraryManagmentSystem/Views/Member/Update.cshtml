@@ -44,29 +44,27 @@
                 </div>
                 <br />
                 <div class="col-md-6">
-                @{
-                    var isAuthorised = await AuthorizationService.AuthorizeAsync(User, Model, LibraryOperations.Block);
-                    if (isAuthorised.Succeeded)
-                    {
-                        @if (Model.Status != AccountStatus.Active)
+                    @{
+                        var isAuthorised = await AuthorizationService.AuthorizeAsync(User, Model, LibraryOperations.Block);
+                        if (isAuthorised.Succeeded)
                         {
-                            <form style="display:inline" method="post">
-                                <input hidden name="id" value="@Model.MemberID">
-                                <input hidden name="status" value="@AccountStatus.Active">
-                                <button type="submit" class="btn btn-success">Activate and Update</button>
-                            </form>
-                        }
+                            @if (Model.Status != AccountStatus.Active)
+                            {
+                                    <input hidden name="id" value="@Model.MemberID">
+                                    <input hidden name="status" value="@AccountStatus.Active">
+                                    <button type="submit" class="btn btn-success">Activate and Update</button>
+                            }
 
-                        @if (Model.Status != AccountStatus.Blocked)
-                        {
-                            <form style="display:inline" method="post">
-                                <input hidden name="id" value="@Model.MemberID">
-                                <input hidden name="status" value="@AccountStatus.Blocked">
-                                        <button type="submit" class="btn btn-danger">Block and Update</button>
-                            </form>
+                            @if (Model.Status != AccountStatus.Blocked)
+                            {
+                               
+                                    <input hidden name="id" value="@Model.MemberID">
+                                    <input hidden name="status" value="@AccountStatus.Blocked">
+                                    <button type="submit" class="btn btn-danger">Block and Update</button>
+                              
+                            }
                         }
                     }
-                }
                 </div>
             </div>
             <br />

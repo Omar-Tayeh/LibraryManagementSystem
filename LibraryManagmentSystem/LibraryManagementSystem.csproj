@@ -12,6 +12,7 @@
     <PackageReference Include="bootstrap-select" Version="1.13.18" />
     <PackageReference Include="ErikEJ.EntityFrameworkCore.SqlServer.DateOnlyTimeOnly" Version="7.0.1" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.15" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />

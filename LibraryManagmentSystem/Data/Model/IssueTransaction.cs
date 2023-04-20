@@ -9,7 +9,9 @@ namespace LibraryManagmentSystem.Data.Model
         [Key]
         public int TransactionId { get; set; }
         public int MemberID { get; set; }
+        public string MemberName { get; set; }
         public int BookID { get; set; }
+        public string BookTitle { get; set; }
         public DateTime IssueDate { get; set; }
         public DateTime DueDate { get; set; }
         public bool Status { get; set; }

@@ -18,6 +18,7 @@ namespace LibraryManagmentSystem.Authorization
         public static readonly string ActivateOperationName = "Activate";
         public static readonly string BlockOperationName = "Block";
 
+        public static readonly string StaffRole = "Staff";
         public static readonly string ManagerRole = "Menager";
         public static readonly string AdminRole = "Admin";
     }

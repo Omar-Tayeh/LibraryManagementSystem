@@ -7,6 +7,5 @@
         public string Description { get; set; }
         public string Author { get; set; }
         public int Inventory { get; set; }
-        public int BorrowerID { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using LibraryManagmentSystem.Data.Model;
 
 namespace LibraryManagmentSystem.Authorization
 {
-    public class ManagerAuthurizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Member>
+    public class ManagerAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Member>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Member member)
         {

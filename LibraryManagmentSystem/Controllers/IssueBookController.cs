@@ -54,8 +54,10 @@ namespace LibraryManagmentSystem.Controllers
 
             var issueTransaction = new IssueTransaction
             {
-                BookID = book.BookID,
                 MemberID = member.MemberID,
+                MemberName = member.MemberName,
+                BookID = book.BookID,
+                BookTitle = book.Title,
                 IssueDate = DateTime.Today.Date,
                 DueDate = DateTime.Today.Date.AddDays(7),
                 Status = false

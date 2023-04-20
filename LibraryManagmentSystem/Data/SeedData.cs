@@ -20,6 +20,9 @@ namespace LibraryManagmentSystem.Data
         {
             using (var _context = new LibraryDbContext(serviceProvider.GetRequiredService<DbContextOptions<LibraryDbContext>>()))
             {
+                //Staff Role and User
+                var staffUid = await EnsureUser(serviceProvider, "staff0@livlib.com", password);
+                await EnsureRole(serviceProvider, staffUid, Constants.StaffRole);
                 //Manager Role and User
                 var managerUid = await EnsureUser(serviceProvider, "manager@livlib.com", password);
                 await EnsureRole(serviceProvider, managerUid, Constants.ManagerRole);
@@ -89,7 +92,8 @@ namespace LibraryManagmentSystem.Data
                     Title = "Tree Book",
                     Description = "Trees",
                     Author = "Forest Author",
-                    Inventory = 0
+                    Inventory = 0,
+                    PhotoName = "71a2cd36-d2c1-48fd-9718-76c771f617ad-sunlight-illuminates-orange-maple-bright-green-branch-in-the-fall-1641918"
                 },
                 new Book()
                 {

@@ -6,7 +6,7 @@
 
         <h3 class="card-header">Edit Book: @Model.Title</h3>
         <form asp-controller="book" asp-action="Update" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
-            @Html.HiddenFor(m => Model.BookID)
+            <input hidden asp-for="BookID" class="form-control" />
             <div class="card-body form-group">
                 <label asp-for="Title" class="col-md-4 control-label"></label>
                 <div class="col-md-6">
@@ -21,7 +21,6 @@
                 <label asp-for="Author" class="col-md-4 control-label"></label>
                 <div class="col-md-6">
                     <input asp-for="Author" class="form-control" />
-
                     <span asp-validation-for="Author" class="text-danger"></span>
                 </div>
                 <label asp-for="Inventory" class="col-md-4 control-label"></label>
@@ -32,6 +31,7 @@
                 <label asp-for="ExistingImage" class="col-md-4 control-label"></label>
                 <div class="form-control col-md-6">
                     <img src="~/Images/@Model.ExistingImage" class="img-fluid" width="80" asp-append-version="true" />
+                    <input hidden asp-for="ExistingImage" class="form-control" />
                     <span asp-validation-for="ExistingImage" class="text-danger"></span>
                 </div>
                 <div class="form-control col-md-6">

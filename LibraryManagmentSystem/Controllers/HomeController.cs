@@ -1,6 +1,8 @@
-﻿using LibraryManagmentSystem.Models;
+﻿using LibraryManagmentSystem.Data;
+using LibraryManagmentSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace LibraryManagmentSystem.Controllers
@@ -8,16 +10,19 @@ namespace LibraryManagmentSystem.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly LibraryDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, LibraryDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [AllowAnonymous]
         public IActionResult Index()
         {
-            return View();
+            var books = _context.Books.ToList();
+            return View(books);
         }
 
         public IActionResult Privacy()
