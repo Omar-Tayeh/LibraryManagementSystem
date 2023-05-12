@@ -12,12 +12,14 @@ namespace LibraryManagmentSystem.Controllers
         {
             _roleManager = roleManager;
         }
+        //Show roles in the database.
         public IActionResult Index()
         {
             var roles = _roleManager.Roles;
             return View(roles);
         }
         [HttpGet]
+        //create roles.
         public IActionResult Create() 
         {
             return View();

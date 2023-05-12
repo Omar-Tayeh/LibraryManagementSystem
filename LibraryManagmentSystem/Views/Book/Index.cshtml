@@ -34,7 +34,7 @@
 
     <br />
 
-    <table class="table table-responsive table-hover table-bordered" id='myTable'>
+    <table class="table table-responsive table-hover table-bordered" id="myTable">
         <thead class="table-dark">
             <tr id="tableHeader">
                 <th>ID</th>
@@ -59,7 +59,7 @@
                         }
                         else
                         {
-                            <img src="~/Images/@Book.PhotoName" class="img-fluid" width="100" asp-append-version="true" />
+                            <img src="~/Images/@Book.PhotoName" height="100" width="100" asp-append-version="true" />
                         }
                     </td>
                     <td>@Book.Title</td>
@@ -73,7 +73,7 @@
         </tbody>
     </table>
     <div class="align-content-center">
-    <span id="errmsg"></span>
+        <span id="errmsg"></span>
     </div>
 </div>
 

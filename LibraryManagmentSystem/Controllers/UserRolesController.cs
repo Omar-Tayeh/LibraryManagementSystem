@@ -15,7 +15,7 @@ public class UserRolesController : Controller
         _roleManager = roleManager;
         _userManager = userManager;
     }
-
+    //allow access just for admin users, show all users and their represented roles.
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Index()
     {
@@ -31,13 +31,13 @@ public class UserRolesController : Controller
         }
         return View(userRolesViewModel);
     }
-
+    //show the roles of each user.
     [Authorize(Roles = "Admin")]
     private async Task<List<string>> GetUserRoles(IdentityUser user)
     {
         return new List<string>(await _userManager.GetRolesAsync(user));
     }
-
+    //change the user assigned roles.
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Manage(string userId)
     {

@@ -45,8 +45,14 @@
                 <br />
                 <div class="col-md-6">
                     @{
-                        var isAuthorised = await AuthorizationService.AuthorizeAsync(User, Model, LibraryOperations.Block);
-                        if (isAuthorised.Succeeded)
+                        var isManager = User.IsInRole(Constants.ManagerRole);
+                        var isAdmin = User.IsInRole(Constants.AdminRole);
+
+                        if (isManager != true && isAdmin != true)
+                        {
+                            //Do not show button.
+                        }
+                        else
                         {
                             @if (Model.Status != AccountStatus.Active)
                             {

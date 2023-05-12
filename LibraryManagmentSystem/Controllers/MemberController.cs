@@ -1,15 +1,14 @@
 ﻿using LibraryManagmentSystem.Authorization;
 using LibraryManagmentSystem.Data;
-using LibraryManagmentSystem.Data.Interfaces;
 using LibraryManagmentSystem.Data.Model;
-using LibraryManagmentSystem.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LibraryManagmentSystem.Controllers
-{
+
+{    //Members controller to manage members creation, updating and deletion.
     public class MemberController : Controller
 
     {
@@ -94,12 +93,12 @@ namespace LibraryManagmentSystem.Controllers
 
         public IActionResult Update(int id)
         {
-            //check if the user is authorised as manager or admin.
+            /*//check if the user is authorised as manager or admin.
             var isManager = User.IsInRole(Constants.ManagerRole);
             var isAdmin = User.IsInRole(Constants.AdminRole);
 
             if (isManager != true && isAdmin != true)
-                return Forbid();
+                return Forbid();*/
 
             //get the member from the database
             var member = _context.Members.Where(m => m.MemberID == id).First();
@@ -113,13 +112,6 @@ namespace LibraryManagmentSystem.Controllers
         [HttpPost]
         public IActionResult Update(Member member, AccountStatus status)
         {
-            //chaeck the user role.
-            var isManager = User.IsInRole(Constants.ManagerRole);
-            var isAdmin = User.IsInRole(Constants.AdminRole);
-
-            if (isManager != true && isAdmin != true)
-                return Forbid();
-
             member.Status = status;
             _context.Members.Update(member);
             _context.SaveChanges();

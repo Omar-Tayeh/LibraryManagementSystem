@@ -1,15 +1,13 @@
 ﻿using LibraryManagmentSystem.Authorization;
 using LibraryManagmentSystem.Data;
-using LibraryManagmentSystem.Data.Interfaces;
 using LibraryManagmentSystem.Data.Model;
-using LibraryManagmentSystem.Data.Repository;
 using LibraryManagmentSystem.ViewModel;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LibraryManagmentSystem.Controllers
 {
+    //Book controller to manage books creation, updating and deletion.
     public class BookController : Controller
     {
         private readonly LibraryDbContext _context;
@@ -55,8 +53,8 @@ namespace LibraryManagmentSystem.Controllers
                 var isAdmin = User.IsInRole(Constants.AdminRole);
 
                 //if not admin or manager deny access and abort operation.
-                if (isManager != true && isAdmin != true)
-                    return Forbid();
+                /*if (isManager != true && isAdmin != true)
+                    return Forbid();*/
                 //otherwise delete the book from the database and save the changes.
                 var book = _context.Books.Where(b => b.BookID == id).First();
                 _context.Remove(book);
@@ -127,7 +125,7 @@ namespace LibraryManagmentSystem.Controllers
             }
             //create variable book of the id provided from the database.
             var book = _context.Books.Where(b => b.BookID == id).First();
-            if(book == null)
+            if (book == null)
             {
                 return NotFound();
             }

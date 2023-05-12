@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using LibraryManagmentSystem.Data.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace LibraryManagmentSystem.Data
 {
@@ -13,7 +14,7 @@ namespace LibraryManagmentSystem.Data
             _context = context;
         }
 
-        
+        //initilize database content to have some data in the system when setup.
         public static async Task Initialize(
             IServiceProvider serviceProvider,
             string password = "Test@1234")
@@ -32,7 +33,7 @@ namespace LibraryManagmentSystem.Data
                 await EnsureRole(serviceProvider, adminUid, Constants.AdminRole);
             }
         }
-
+        //ensure that a user does not exisit to avoid creating it and create if not available..
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider,
             string userName, string initPw)
         {
@@ -53,7 +54,7 @@ namespace LibraryManagmentSystem.Data
                 throw new Exception("User did not get created. password Error?");
             return user.Id;
         }
-
+        //ensure that a role does not exisit to avoid creating it, and assign the user to a role.
         public static async Task<IdentityResult> EnsureRole(
             IServiceProvider serviceProvider,
             string uid, string role)
@@ -76,7 +77,7 @@ namespace LibraryManagmentSystem.Data
 
             return ir;
         }
-
+        //Add books and members when there is none.
         public static void Seed(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
@@ -97,8 +98,8 @@ namespace LibraryManagmentSystem.Data
                 },
                 new Book()
                 {
-                    Title = "Veggies Book",
-                    Description = "Vegtables",
+                    Title = "Lake Book",
+                    Description = "Lake",
                     Author = "Forest Author",
                     Inventory = 5
                 },

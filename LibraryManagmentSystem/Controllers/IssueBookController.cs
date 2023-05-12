@@ -1,5 +1,4 @@
 ﻿using LibraryManagmentSystem.Data;
-using LibraryManagmentSystem.Data.Interfaces;
 using LibraryManagmentSystem.Data.Model;
 using LibraryManagmentSystem.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +16,8 @@ namespace LibraryManagmentSystem.Controllers
             _context = context;
         }
 
-        
-        public async Task<IActionResult> Index()
+        //show a book to be selected for issuing.
+        public  IActionResult Index()
         {
                 var BooksInStock = _context.Books.Where(s => s.Inventory > 0);
 
@@ -31,7 +30,7 @@ namespace LibraryManagmentSystem.Controllers
                     return View(BooksInStock);
                 }
         }
-
+        //after selecting the book, show the members to lend books to.
         public IActionResult Issue(int bookid)
         {
             
@@ -43,7 +42,7 @@ namespace LibraryManagmentSystem.Controllers
                 return View(issueBookVM);
             
         }
-
+        //lend books to members and adjust inventory, create a transaction record, add and save changes to database.
         public IActionResult Lend(int bookId, int memberId)
         {
             var book = _context.Books.Where(b => b.BookID == bookId).First();

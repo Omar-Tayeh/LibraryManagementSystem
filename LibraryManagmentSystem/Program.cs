@@ -1,7 +1,5 @@
 using LibraryManagmentSystem.Authorization;
 using LibraryManagmentSystem.Data;
-using LibraryManagmentSystem.Data.Interfaces;
-using LibraryManagmentSystem.Data.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

@@ -16,7 +16,7 @@ namespace LibraryManagmentSystem.Controllers
             _context = context;
         }
 
-        // GET: ReturnBook
+        // GET: ReturnBook, show all transaction that are not returned unless the user is admin show all transactions.
         public IActionResult Index()
         {
             var transactions = _context.IssueTransactions.ToList();
@@ -32,12 +32,12 @@ namespace LibraryManagmentSystem.Controllers
             }
         }
 
-
+        //return books to stock and mark the transaction as returned.
         public IActionResult Return(int transactionId)
         {
             var transaction = _context.IssueTransactions.Where(t => t.TransactionId.Equals(transactionId)).FirstOrDefault();
             var Book = _context.Books.Where(b => b.BookID.Equals(transaction.BookID)).FirstOrDefault();
-            var Member = _context.Members.Where(m => m.MemberID.Equals(transaction.MemberID));
+            /*var Member = _context.Members.Where(m => m.MemberID.Equals(transaction.MemberID));*/
 
             if (transaction.Status == false)
             {
@@ -55,7 +55,7 @@ namespace LibraryManagmentSystem.Controllers
             }
             else
             {
-                throw new Exception("Transaction Returned");
+                return RedirectToAction("Index");
             }
             _context.SaveChanges();
             return RedirectToAction("Index");

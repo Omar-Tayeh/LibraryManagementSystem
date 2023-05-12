@@ -1,8 +1,7 @@
-﻿using LibraryManagmentSystem.Data;
-using LibraryManagmentSystem.Models;
+﻿using LibraryManagementSystem.Data.Model;
+using LibraryManagmentSystem.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace LibraryManagmentSystem.Controllers

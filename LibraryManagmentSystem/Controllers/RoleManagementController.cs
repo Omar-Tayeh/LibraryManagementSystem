@@ -11,12 +11,14 @@ public class RoleManagementController : Controller
     {
         _roleManager = roleManager;
     }
+    //allow access only for admin users, show roles.
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Index()
     {
         var roles = await _roleManager.Roles.ToListAsync();
         return View(roles);
     }
+    //only allow access to admin users, ability to add new roles.
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> AddRole(string roleName)

@@ -1,7 +1,4 @@
-﻿using LibraryManagmentSystem.Controllers;
-using LibraryManagmentSystem.Data.Model;
-using LibraryManagmentSystem.ViewModel;
-using Microsoft.AspNetCore.Identity;
+﻿using LibraryManagmentSystem.Data.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +10,7 @@ namespace LibraryManagmentSystem.Data
         {
             
         }
+        //migrate these entities to the database using EF Core.
         public DbSet<Member> Members { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<IssueTransaction> IssueTransactions { get; set; }
